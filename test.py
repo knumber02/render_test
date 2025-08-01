@@ -1,18 +1,18 @@
-from fastapi import FastAPI, Request
+from flask import Flask, request, jsonify
 import hashlib
 
-app = FastAPI()
+app = Flask(__name__)
 
-@app.put("/login")
-async def login(request: Request):
-    data = await request.json()
-    username = data.get("username")
-    password = data.get("password")
+@app.route("/login", methods=["PUT"])
+def login():
+    data = request.get_json()
+    username = data["username"]
+    password = data["password"]
     token = hashlib.sha1((username + password).encode()).hexdigest()
-    return {"token": token}
+    return jsonify({"token": token})
 
-@app.put(("/flag"))
-async def flag(request: Request):
-    data = await request.json()
-    print(data["flag"])
-    return {"ok": True}
+@app.route("/flag", methods=["PUT"])
+def flag():
+    data = request.get_json()
+    print("✅ FLAG:", data["flag"])
+    return jsonify({"ok": True})
