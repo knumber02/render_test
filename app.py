@@ -22,8 +22,10 @@ async def login(request: Request):
 
 
 @app.put("/flag")
-async def put_flag(req: FlagRequest):
-    return {"received_flag": req.flag}
+async def receive_flag(req: FlagRequest):
+    flag = req.flag
+    print(f"🎉 Received flag: {flag}")
+    return {"message": "Flag received!"}
 
 
 df = pd.read_csv("order_books.csv")
